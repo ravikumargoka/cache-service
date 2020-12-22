@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>com.ravi.cache</groupId>
-    <artifactId>cache-statistics</artifactId>
+    <artifactId>cache-service</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>cache-statistics-maven</name>
+    <name>Sample project for ehcache and statistics</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -104,7 +104,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
