@@ -6,7 +6,7 @@ This project integrates java cache with ehcache3 (provider). It also provides RE
 ### Run as a jar file
 This is an Uber jar. Hence, can be readily imaged for Docker. Execute it through command line: java -jar {name of the jar file with extension}
 ### Complete integration of the Swagger ui.
-which can be accessed at: http://localhost:9090/xapi/swagger-ui.html
+which can be accessed at: http://localhost:9090
 
 
 ## Docker commands
@@ -40,6 +40,8 @@ which can be accessed at: http://localhost:9090/xapi/swagger-ui.html
     docker service create --name <any_name_for_service> -p <docker_port>:<application_port> --replicas <no_of_replicas> <docker_id>/<tag_name>:<application_name>
     Check the service:
     docker service ps <service_name>
+    Access your service by clicking on the port number on docker play UI. This will open your service in anther browser/tab.
+
 ```
 
 
