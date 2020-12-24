@@ -22,14 +22,14 @@ public class CachePurgeServiceImpl implements CachePurgeService {
      */
     @Override
     public void purgeCache(String cacheAliasName) {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing cache: {}", cacheAliasName);
         }
         Cache<String, Object> cache = cacheManager.getCache(cacheAliasName, String.class, Object.class);
-        if(null != cache) {
+        if (null != cache) {
             cache.removeAll();
         }
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing cache: {}", cacheAliasName);
         }
 
@@ -42,19 +42,19 @@ public class CachePurgeServiceImpl implements CachePurgeService {
      */
     @Override
     public void purgeAllCache() {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing all caches.");
         }
         Iterable<String> allCacheNames = cacheManager.getCacheNames();
         if (null != allCacheNames) {
             for (String cacheAliasName : allCacheNames) {
                 Cache<String, Object> cache = cacheManager.getCache(cacheAliasName, String.class, Object.class);
-                if(null != cache) {
+                if (null != cache) {
                     cache.removeAll();
                 }
             }
         }
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("END :: removing all caches.");
         }
     }

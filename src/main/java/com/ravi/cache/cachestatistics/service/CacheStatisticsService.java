@@ -7,6 +7,7 @@ public interface CacheStatisticsService {
 
     /**
      * Method to get the statistics of a given cache
+     *
      * @param cacheAliasName
      * @param cacheKeyClass
      * @param cacheObjectClass
@@ -16,6 +17,7 @@ public interface CacheStatisticsService {
 
     /**
      * Method to get the statistics of all the caches in the application
+     *
      * @return CacheDetails
      */
     CacheDetails getAllCacheStatistics();

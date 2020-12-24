@@ -22,12 +22,12 @@ public class CachePurgeController {
 
     @DeleteMapping(path = "/{cacheAliasName}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearCache(@PathVariable("cacheAliasName") String cacheAliasName) {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing the cache with name: {}", cacheAliasName);
         }
         cachePurgeService.purgeCache(cacheAliasName);
-        String responseString = "The cache "+cacheAliasName+" is purged.";
-        if(log.isDebugEnabled()) {
+        String responseString = "The cache " + cacheAliasName + " is purged.";
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing the cache with name: {}", cacheAliasName);
         }
         return new ResponseEntity<>(responseString, HttpStatus.OK);
@@ -35,12 +35,12 @@ public class CachePurgeController {
 
     @DeleteMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearAllCache() {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("START :: removing all caches.");
         }
         cachePurgeService.purgeAllCache();
         String responseString = "All cache were purged.";
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("END :: removing all caches.");
         }
         return new ResponseEntity<>(responseString, HttpStatus.OK);

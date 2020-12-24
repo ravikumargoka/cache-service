@@ -35,7 +35,8 @@ public class BaseCacheStatisticsServiceImpl {
         }
         return cacheStatistics;
     }
-    private ObjectName getJMXObjectName(Cache<? extends Object, ? extends Object> cache){
+
+    private ObjectName getJMXObjectName(Cache<? extends Object, ? extends Object> cache) {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         // Refer to org.ehcache.jsr107.Eh107CacheStatisticsMXBean.Eh107CacheStatisticsMXBean(String, URI, StatisticsService)
@@ -46,12 +47,11 @@ public class BaseCacheStatisticsServiceImpl {
         try {
             objectName = new ObjectName(
                     "javax.cache:type=" + CACHE_STATISTICS_BEAN + ",CacheManager=" + cacheManagerName + ",Cache=" + cacheName);
-        }
-        catch (MalformedObjectNameException e) {
+        } catch (MalformedObjectNameException e) {
             throw new CacheException(e);
         }
 
-        if(!mBeanServer.isRegistered(objectName)){
+        if (!mBeanServer.isRegistered(objectName)) {
             throw new CacheException("No MBean found with ObjectName => " + objectName.getCanonicalName());
         }
 
@@ -65,7 +65,7 @@ public class BaseCacheStatisticsServiceImpl {
     public <K extends Object, V extends Object> long getSize(Cache<K, V> cache) {
         Iterator<Cache.Entry<K, V>> itr = cache.iterator();
         long count = 0;
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             itr.next();
             count++;
         }
@@ -75,14 +75,14 @@ public class BaseCacheStatisticsServiceImpl {
     public <K extends Object, V extends Object> String dump(Cache<K, V> cache) {
         Iterator<Cache.Entry<K, V>> itr = cache.iterator();
         StringBuffer b = new StringBuffer();
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             Cache.Entry<K, V> entry = itr.next();
             b.append(entry.getKey() + "=" + entry.getValue() + "\n");
         }
         return b.toString();
     }
 
-    private CacheStatistics mapStatistics(CacheStatisticsMXBean cacheStatisticsMXBean, ObjectName objectName){
+    private CacheStatistics mapStatistics(CacheStatisticsMXBean cacheStatisticsMXBean, ObjectName objectName) {
         CacheStatistics cacheStatistics = new CacheStatistics();
         try {
             cacheStatistics.setCacheHits(cacheStatisticsMXBean.getCacheHits());
@@ -93,11 +93,10 @@ public class BaseCacheStatisticsServiceImpl {
             cacheStatistics.setCachePuts(cacheStatisticsMXBean.getCachePuts());
             cacheStatistics.setCacheRemovals(cacheStatisticsMXBean.getCacheRemovals());
             cacheStatistics.setCacheEvictions(cacheStatisticsMXBean.getCacheEvictions());
-            cacheStatistics.setAverageGetTime(cacheStatisticsMXBean.getAverageGetTime()/1000f);
-            cacheStatistics.setAveragePutTime(cacheStatisticsMXBean.getAveragePutTime()/1000f);
-            cacheStatistics.setAverageRemoveTime(cacheStatisticsMXBean.getAverageRemoveTime()/1000f);
-        }
-        catch (Exception ex){
+            cacheStatistics.setAverageGetTime(cacheStatisticsMXBean.getAverageGetTime() / 1000f);
+            cacheStatistics.setAveragePutTime(cacheStatisticsMXBean.getAveragePutTime() / 1000f);
+            cacheStatistics.setAverageRemoveTime(cacheStatisticsMXBean.getAverageRemoveTime() / 1000f);
+        } catch (Exception ex) {
             log.error("Exception occurred while reading the cache statistics from Eh107CacheStatisticsMXBean", ex);
         }
         return cacheStatistics;

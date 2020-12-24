@@ -4,6 +4,7 @@ public interface CachePurgeService {
 
     /**
      * Method to purge/remove a particular cache
+     *
      * @param cacheAliasName
      */
     void purgeCache(String cacheAliasName);

@@ -6,8 +6,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@JsonPropertyOrder({ "averageGetTime", "averagePutTime", "averageRemoveTime", "cacheEvictions", "cacheGets",
-        "cacheHitPercentage", "cacheHits", "cacheMisses", "cacheMissPercentage", "cachePuts", "cacheRemovals" })
+@JsonPropertyOrder({"averageGetTime", "averagePutTime", "averageRemoveTime", "cacheEvictions", "cacheGets",
+        "cacheHitPercentage", "cacheHits", "cacheMisses", "cacheMissPercentage", "cachePuts", "cacheRemovals"})
 @JsonRootName("statistics")
 @Data
 public class CacheStatistics implements Serializable {
