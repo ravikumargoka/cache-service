@@ -13,7 +13,7 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.Iterator;
 
-import static com.ravi.cache.cachestatistics.constants.CacheConstants.*;
+import static com.ravi.cache.cachestatistics.constants.CacheConstants.CACHE_STATISTICS_BEAN;
 
 @Slf4j
 public class BaseCacheStatisticsServiceImpl {

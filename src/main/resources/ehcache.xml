@@ -3,7 +3,7 @@
         xmlns='http://www.ehcache.org/v3'
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
-    <cache alias="userCache">
+    <cache alias="usersCache">
         <key-type>java.lang.String</key-type>
         <value-type>java.lang.Object</value-type>
         <expiry>
@@ -14,7 +14,7 @@
         </resources>
     </cache>
 
-    <cache alias="teacherCache">
+    <cache alias="teachersCache">
         <key-type>java.lang.String</key-type>
         <value-type>java.lang.Object</value-type>
         <expiry>

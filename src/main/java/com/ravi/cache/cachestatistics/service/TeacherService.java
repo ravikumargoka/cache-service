@@ -1,12 +1,16 @@
 package com.ravi.cache.cachestatistics.service;
 
-import com.ravi.cache.cachestatistics.dto.Teachers;
+import com.ravi.cache.cachestatistics.entity.Teacher;
+
+import java.util.List;
 
 public interface TeacherService {
 
-    /**
-     * Method to get all the teachers information
-     * @return Teachers
-     */
-    Teachers getAllTeachers();
+    List<Teacher> getAllTeachers();
+
+    Teacher getTeacherById(Long id);
+
+    Teacher createOrUpdateTeacher(Teacher entity);
+
+    void deleteTeacherById(Long id);
 }

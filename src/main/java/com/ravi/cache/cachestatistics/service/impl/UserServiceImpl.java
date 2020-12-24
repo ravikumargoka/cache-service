@@ -1,40 +1,58 @@
 package com.ravi.cache.cachestatistics.service.impl;
 
-import com.ravi.cache.cachestatistics.dto.User;
-import com.ravi.cache.cachestatistics.dto.Users;
+import com.ravi.cache.cachestatistics.entity.User;
+import com.ravi.cache.cachestatistics.exception.RecordNotFoundException;
+import com.ravi.cache.cachestatistics.repository.UserRepository;
 import com.ravi.cache.cachestatistics.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Override
-    public Users getUsers(){
-        if(log.isDebugEnabled()){
-            log.debug("START :: Getting all users");
-        }
-        User user1 = new User(1, "John", "Smith");
-        User user2 = new User(2, "Brian", "McMillan");
-        User user3 = new User(3, "Mark", "Robinson Jr.");
-        User user4 = new User(4, "Bill", "Meyer");
-        User user5 = new User(5, "Sara", "Williamson");
-        List<User> usersList = new ArrayList<>();
-        usersList.add(user1);
-        usersList.add(user2);
-        usersList.add(user3);
-        usersList.add(user4);
-        usersList.add(user5);
+    @Autowired
+    private UserRepository userRepository;
 
-        Users users = new Users();
-        users.setUsers(usersList);
-        if(log.isDebugEnabled()){
-            log.debug("END :: Getting all users: {}", users);
-        }
-        return users;
+    public List<User> getAllUsers() {
+        List<User> userList = userRepository.findAll();
+        return userList;
     }
+
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new RecordNotFoundException("No user record exists for the given id: " + id);
+        }
+    }
+
+    public User createOrUpdateUser(User entity) {
+        Optional<User> user = userRepository.findById(entity.getId());
+        if (user.isPresent()) {
+            User newEntity = user.get();
+            newEntity.setFirstName(entity.getFirstName());
+            newEntity.setLastName(entity.getLastName());
+            newEntity.setEmail(entity.getEmail());
+            newEntity = userRepository.save(newEntity);
+            return newEntity;
+        } else {
+            entity = userRepository.save(entity);
+            return entity;
+        }
+    }
+
+    public void deleteUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException("No user record exists for the given id: " + id);
+        }
+    }
+
+
 }

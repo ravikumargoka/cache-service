@@ -1,56 +1,62 @@
 package com.ravi.cache.cachestatistics.service.impl;
 
-import com.ravi.cache.cachestatistics.dto.Teacher;
-import com.ravi.cache.cachestatistics.dto.Teachers;
+import com.ravi.cache.cachestatistics.entity.Teacher;
+import com.ravi.cache.cachestatistics.exception.RecordNotFoundException;
+import com.ravi.cache.cachestatistics.repository.TeacherRepository;
 import com.ravi.cache.cachestatistics.service.TeacherService;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Slf4j
 public class TeacherServiceImpl implements TeacherService {
 
+    @Autowired
+    private TeacherRepository teacherRepository;
+
     @Override
-    public Teachers getAllTeachers() {
-        if(log.isDebugEnabled()){
-            log.debug("START :: Getting all teachers");
+    public List<Teacher> getAllTeachers() {
+        List<Teacher> teachersList = teacherRepository.findAll();
+        return teachersList;
+    }
+
+    @Override
+    public Teacher getTeacherById(Long id) {
+        Optional<Teacher> teacher = teacherRepository.findById(id);
+        if (teacher.isPresent()) {
+            return teacher.get();
+        } else {
+            throw new RecordNotFoundException("No teacher record exists for the given id: " + id);
         }
-        Teacher teacher1 = new Teacher();
-        teacher1.setId(12736);
-        teacher1.setGrade("First Grade");
-        teacher1.setSubject("General Science");
-        teacher1.setFirstName("Bill");
-        teacher1.setLastName("Clinton");
+    }
 
-        Teacher teacher2 = new Teacher();
-        teacher2.setId(473782);
-        teacher2.setGrade("Second Grade");
-        teacher2.setSubject("Mathematics");
-        teacher2.setFirstName("Donald");
-        teacher2.setLastName("Trump");
-
-
-        Teacher teacher3 = new Teacher();
-        teacher3.setId(57383);
-        teacher3.setGrade("Third Grade");
-        teacher3.setSubject("English");
-        teacher3.setFirstName("George");
-        teacher3.setLastName("Bush");
-
-        List<Teacher> teachersList = new ArrayList<>();
-        teachersList.add(teacher1);
-        teachersList.add(teacher2);
-        teachersList.add(teacher3);
-
-        Teachers teachers = new Teachers();
-        teachers.setTeachers(teachersList);
-
-        if(log.isDebugEnabled()){
-            log.debug("END :: Getting all teachers: {}", teachers);
+    @Override
+    public Teacher createOrUpdateTeacher(Teacher entity) {
+        Optional<Teacher> teacher = teacherRepository.findById(entity.getId());
+        if (teacher.isPresent()) {
+            Teacher newEntity = teacher.get();
+            newEntity.setSubject(entity.getSubject());
+            newEntity.setGrade(entity.getGrade());
+            newEntity.setFirstName(entity.getFirstName());
+            newEntity.setLastName(entity.getLastName());
+            newEntity.setEmail(entity.getEmail());
+            newEntity = teacherRepository.save(newEntity);
+            return newEntity;
+        } else {
+            entity = teacherRepository.save(entity);
+            return entity;
         }
-        return teachers;
+    }
+
+    @Override
+    public void deleteTeacherById(Long id) {
+        Optional<Teacher> teacher = teacherRepository.findById(id);
+        if (teacher.isPresent()) {
+            teacherRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException("No teacher record exists for the given id: " + id);
+        }
     }
 }

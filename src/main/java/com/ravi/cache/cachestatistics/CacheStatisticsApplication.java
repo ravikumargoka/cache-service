@@ -16,25 +16,24 @@ import java.net.URI;
 @Slf4j
 public class CacheStatisticsApplication {
 
-	@Value("classpath:ehcache.xml")
-	private Resource cacheResource;
+    @Value("classpath:ehcache.xml")
+    private Resource cacheResource;
 
-	public static void main(String[] args) {
-		SpringApplication.run(CacheStatisticsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CacheStatisticsApplication.class, args);
+    }
 
-	@Bean(name="cacheManager")
-	public CacheManager cacheManager() {
-		CacheManager cacheManager = null;
-		try {
-			URI uri = cacheResource.getURI();
-			CachingProvider cachingProvider = Caching.getCachingProvider();
-			cacheManager = cachingProvider.getCacheManager(uri, getClass().getClassLoader());
-		}
-		catch(Exception ioe){
-			log.error("ERROR :: Error occurred while initializing cache manager. Cannot load the ehcache.xml file.", ioe);
-		}
-		return cacheManager;
-	}
+    @Bean(name = "cacheManager")
+    public CacheManager cacheManager() {
+        CacheManager cacheManager = null;
+        try {
+            URI uri = cacheResource.getURI();
+            CachingProvider cachingProvider = Caching.getCachingProvider();
+            cacheManager = cachingProvider.getCacheManager(uri, getClass().getClassLoader());
+        } catch (Exception ioe) {
+            log.error("ERROR :: Error occurred while initializing cache manager. Cannot load the ehcache.xml file.", ioe);
+        }
+        return cacheManager;
+    }
 }
 

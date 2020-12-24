@@ -1,17 +1,21 @@
 package com.ravi.cache.cachestatistics.resource;
 
+
 import com.ravi.cache.cachestatistics.service.CachePurgeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cache/purge/v1")
 @Slf4j
-public class CachePurgeResource {
+public class CachePurgeController {
 
     @Autowired
     private CachePurgeService cachePurgeService;
@@ -41,5 +45,4 @@ public class CachePurgeResource {
         }
         return new ResponseEntity<>(responseString, HttpStatus.OK);
     }
-
 }

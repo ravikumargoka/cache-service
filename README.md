@@ -17,7 +17,7 @@ which can be accessed at: http://localhost:9090
     Run the image in the container:
     docker run -p <docker_port>:<application_port> -t <application_name>
     Remove the image:
-    docker image rim -f <application_name>
+    docker image rm -f <application_name>
 ```
 #### Docker hub
 ```sh
