@@ -10,6 +10,6 @@ import org.springframework.web.servlet.view.RedirectView;
 public class RootResource {
     @GetMapping
     public RedirectView swaggerUi() {
-        return new RedirectView("/swagger-ui.html");
+        return new RedirectView("/api/swagger-ui.html");
     }
 }
