@@ -28,7 +28,7 @@
         <org.slf4j.version>1.7.25</org.slf4j.version>
         <org.apache.commons-lang3.version>3.11</org.apache.commons-lang3.version>
         <org.apache.commons-collections4.version>4.4</org.apache.commons-collections4.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>[4.13.1,)</junit.version>
         <main.class>com.ravi.cache.cachestatistics.CacheStatisticsApplication</main.class>
     </properties>
 
