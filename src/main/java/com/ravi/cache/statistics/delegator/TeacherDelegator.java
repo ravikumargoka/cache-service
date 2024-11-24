@@ -4,9 +4,11 @@ import com.ravi.cache.statistics.dto.TeacherDTO;
 import com.ravi.cache.statistics.entity.Teacher;
 import com.ravi.cache.statistics.manager.TeacherServiceManager;
 import com.ravi.cache.statistics.mapper.TeacherDataMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TeacherDelegator {
 
     private final TeacherServiceManager teacherServiceManager;
