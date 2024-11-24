@@ -1,8 +1,8 @@
 package com.ravi.cache.statistics.controller;
 
-import com.ravi.cache.statistics.entity.User;
+import com.ravi.cache.statistics.delegator.UserDelegator;
+import com.ravi.cache.statistics.dto.UserDTO;
 import com.ravi.cache.statistics.exception.RecordNotFoundException;
-import com.ravi.cache.statistics.manager.UserServiceManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,42 +22,42 @@ import java.util.List;
 public class UserController {
 
 
-    private final UserServiceManager userServiceManager;
+    private final UserDelegator userDelegator;
 
-    public UserController(UserServiceManager userServiceManager) {
-        this.userServiceManager = userServiceManager;
+    public UserController(UserDelegator userDelegator) {
+        this.userDelegator = userDelegator;
     }
 
     @Operation(summary = "Gets all the users data", description = "Gets all the users data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> userEntities = userServiceManager.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userEntities = userDelegator.getAllUsers();
         return new ResponseEntity<>(userEntities, new HttpHeaders(), HttpStatus.OK);
     }
 
     @Operation(summary = "Gets the user data for the given id", description = "Get the user data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User user = userServiceManager.getUserById(id);
-        return new ResponseEntity<>(user, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {
+        UserDTO userDTO = userDelegator.getUserById(id);
+        return new ResponseEntity<>(userDTO, new HttpHeaders(), HttpStatus.OK);
     }
 
     @Operation(summary = "Creates the user", description = "Creates the user. It updates the cache with newly created user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully created the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PostMapping
-    public ResponseEntity<User> createUser(User user) throws RecordNotFoundException {
-        User updated = userServiceManager.createUser(user);
+    public ResponseEntity<UserDTO> createUser(UserDTO userDTO) throws RecordNotFoundException {
+        UserDTO updated = userDelegator.createUser(userDTO);
         return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
 
     }
@@ -65,11 +65,11 @@ public class UserController {
     @Operation(summary = "Updates the user", description = "Updates the user. It updates the cache with newly created user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PatchMapping
-    public ResponseEntity<User> updateUser(User user) throws RecordNotFoundException {
-        User updated = userServiceManager.updateUser(user);
+    public ResponseEntity<UserDTO> updateUser(UserDTO userDTO) throws RecordNotFoundException {
+        UserDTO updated = userDelegator.updateUser(userDTO);
         return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
 
     }
@@ -82,7 +82,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public HttpStatus deleteUserById(@PathVariable("id") Long id)
             throws RecordNotFoundException {
-        userServiceManager.deleteUserById(id);
+        userDelegator.deleteUserById(id);
         return HttpStatus.OK;
     }
 }
