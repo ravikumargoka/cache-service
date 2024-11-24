@@ -70,13 +70,28 @@ public class UserServiceManager {
         return user;
     }
 
-    public User createOrUpdateUser(User entity) {
+    public User createUser(User entity) {
         if (log.isDebugEnabled()) {
             log.debug("START :: Create or update user: {}", entity);
         }
         User user;
         Cache<String, Object> usersCache = cacheManager.getCache(USERS_CACHE_ALIAS, String.class, Object.class);
-        user = userService.createOrUpdateUser(entity);
+        user = userService.createUser(entity);
+        List<User> users = userService.getAllUsers();
+        usersCache.put(USERS_CACHE_KEY, users);
+        if (log.isDebugEnabled()) {
+            log.debug("END :: Create or update user: {}", entity);
+        }
+        return user;
+    }
+
+    public User updateUser(User entity) {
+        if (log.isDebugEnabled()) {
+            log.debug("START :: Create or update user: {}", entity);
+        }
+        User user;
+        Cache<String, Object> usersCache = cacheManager.getCache(USERS_CACHE_ALIAS, String.class, Object.class);
+        user = userService.updateUser(entity);
         List<User> users = userService.getAllUsers();
         usersCache.put(USERS_CACHE_KEY, users);
         if (log.isDebugEnabled()) {

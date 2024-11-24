@@ -68,18 +68,34 @@ public class TeacherServiceManager {
         return teacher;
     }
 
-    public Teacher createOrUpdateTeacher(Teacher entity) {
+    public Teacher createTeacher(Teacher entity) {
         if (log.isDebugEnabled()) {
-            log.debug("START :: Create or update teacher: {}", entity);
+            log.debug("START :: Create teacher: {}", entity);
         }
         Teacher teacher;
         Cache<String, Object> teacherCache = cacheManager.getCache(TEACHERS_CACHE_ALIAS, String.class, Object.class);
-        teacher = teacherService.createOrUpdateTeacher(entity);
+        teacher = teacherService.createTeacher(entity);
         //Update the cache with latest list
         List<Teacher> teachers = teacherService.getAllTeachers();
         teacherCache.put(TEACHER_CACHE_KEY, teachers);
         if (log.isDebugEnabled()) {
-            log.debug("END :: Create or update teacher: {}", entity);
+            log.debug("END :: Create teacher: {}", entity);
+        }
+        return teacher;
+    }
+
+    public Teacher updateTeacher(Teacher entity) {
+        if (log.isDebugEnabled()) {
+            log.debug("START :: Update teacher: {}", entity);
+        }
+        Teacher teacher;
+        Cache<String, Object> teacherCache = cacheManager.getCache(TEACHERS_CACHE_ALIAS, String.class, Object.class);
+        teacher = teacherService.updateTeacher(entity);
+        //Update the cache with latest list
+        List<Teacher> teachers = teacherService.getAllTeachers();
+        teacherCache.put(TEACHER_CACHE_KEY, teachers);
+        if (log.isDebugEnabled()) {
+            log.debug("END :: Update teacher: {}", entity);
         }
         return teacher;
     }

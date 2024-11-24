@@ -10,7 +10,9 @@ public interface TeacherService {
 
     Teacher getTeacherById(Long id);
 
-    Teacher createOrUpdateTeacher(Teacher entity);
+    Teacher createTeacher(Teacher entity);
+
+    Teacher updateTeacher(Teacher entity);
 
     void deleteTeacherById(Long id);
 }

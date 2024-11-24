@@ -31,20 +31,23 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User createOrUpdateUser(User entity) {
+    public User createUser(User entity) {
+        return userRepository.save(entity);
+    }
+
+    public User updateUser(User entity) {
         Optional<User> user = userRepository.findById(entity.getId());
+        User newEntity = null;
         if (user.isPresent()) {
-            User newEntity = user.get();
+            newEntity = user.get();
             newEntity.setFirstName(entity.getFirstName());
             newEntity.setLastName(entity.getLastName());
             newEntity.setEmail(entity.getEmail());
             newEntity = userRepository.save(newEntity);
-            return newEntity;
-        } else {
-            entity = userRepository.save(entity);
-            return entity;
         }
+        return newEntity;
     }
+
 
     public void deleteUserById(Long id) {
         Optional<User> user = userRepository.findById(id);

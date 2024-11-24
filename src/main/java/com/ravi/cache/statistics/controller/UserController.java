@@ -30,7 +30,7 @@ public class UserController {
 
     @Operation(summary = "Gets all the users data", description = "Gets all the users data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieve the data",
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping
@@ -41,7 +41,7 @@ public class UserController {
 
     @Operation(summary = "Gets the user data for the given id", description = "Get the user data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieve the data",
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping("/{id}")
@@ -52,19 +52,31 @@ public class UserController {
 
     @Operation(summary = "Creates the user", description = "Creates the user. It updates the cache with newly created user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieve the data",
+            @ApiResponse(responseCode = "200", description = "Successfully created the data",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PostMapping
-    public ResponseEntity<User> createOrUpdateUser(User user) throws RecordNotFoundException {
-        User updated = userServiceManager.createOrUpdateUser(user);
+    public ResponseEntity<User> createUser(User user) throws RecordNotFoundException {
+        User updated = userServiceManager.createUser(user);
+        return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
+
+    }
+
+    @Operation(summary = "Updates the user", description = "Updates the user. It updates the cache with newly created user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated the data",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
+    @PatchMapping
+    public ResponseEntity<User> updateUser(User user) throws RecordNotFoundException {
+        User updated = userServiceManager.updateUser(user);
         return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @Operation(summary = "Deletes the user", description = "Deletes the user. It updates the cache to reflect the deleted user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieve the data",
+            @ApiResponse(responseCode = "200", description = "Successfully deleted the data",
                     content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @DeleteMapping("/{id}")

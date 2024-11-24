@@ -10,7 +10,9 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User createOrUpdateUser(User entity);
+    User createUser(User entity);
+
+    User updateUser(User entity);
 
     void deleteUserById(Long id);
 }

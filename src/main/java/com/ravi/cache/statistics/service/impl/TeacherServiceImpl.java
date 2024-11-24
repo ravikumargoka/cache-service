@@ -34,21 +34,24 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher createOrUpdateTeacher(Teacher entity) {
+    public Teacher createTeacher(Teacher entity) {
+        return teacherRepository.save(entity);
+    }
+
+    @Override
+    public Teacher updateTeacher(Teacher entity) {
         Optional<Teacher> teacher = teacherRepository.findById(entity.getId());
+        Teacher newEntity = null;
         if (teacher.isPresent()) {
-            Teacher newEntity = teacher.get();
+            newEntity = teacher.get();
             newEntity.setSubject(entity.getSubject());
             newEntity.setGrade(entity.getGrade());
             newEntity.setFirstName(entity.getFirstName());
             newEntity.setLastName(entity.getLastName());
             newEntity.setEmail(entity.getEmail());
             newEntity = teacherRepository.save(newEntity);
-            return newEntity;
-        } else {
-            entity = teacherRepository.save(entity);
-            return entity;
         }
+        return newEntity;
     }
 
     @Override
