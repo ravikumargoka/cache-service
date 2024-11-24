@@ -4,7 +4,6 @@ import com.ravi.cache.statistics.entity.Teacher;
 import com.ravi.cache.statistics.exception.RecordNotFoundException;
 import com.ravi.cache.statistics.repository.TeacherRepository;
 import com.ravi.cache.statistics.service.TeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,13 +12,15 @@ import java.util.Optional;
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-    @Autowired
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
+
+    public TeacherServiceImpl(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
+    }
 
     @Override
     public List<Teacher> getAllTeachers() {
-        List<Teacher> teachersList = teacherRepository.findAll();
-        return teachersList;
+        return teacherRepository.findAll();
     }
 
     @Override

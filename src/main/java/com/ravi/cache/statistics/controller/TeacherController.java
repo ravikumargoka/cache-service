@@ -4,7 +4,6 @@ import com.ravi.cache.statistics.entity.Teacher;
 import com.ravi.cache.statistics.exception.RecordNotFoundException;
 import com.ravi.cache.statistics.manager.TeacherServiceManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,11 @@ import java.util.List;
 @RequestMapping("/teachers/v1")
 public class TeacherController {
 
-    @Autowired
-    private TeacherServiceManager teacherServiceManager;
+    private final TeacherServiceManager teacherServiceManager;
+
+    public TeacherController(TeacherServiceManager teacherServiceManager) {
+        this.teacherServiceManager = teacherServiceManager;
+    }
 
     @GetMapping
     public ResponseEntity<List<Teacher>> getAllTeachers() {

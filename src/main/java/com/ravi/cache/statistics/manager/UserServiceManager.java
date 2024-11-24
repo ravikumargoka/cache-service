@@ -3,7 +3,6 @@ package com.ravi.cache.statistics.manager;
 import com.ravi.cache.statistics.entity.User;
 import com.ravi.cache.statistics.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -19,11 +18,14 @@ import static com.ravi.cache.statistics.constants.CacheConstants.USERS_CACHE_KEY
 @Slf4j
 public class UserServiceManager {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
+
+    public UserServiceManager(UserService userService, CacheManager cacheManager) {
+        this.userService = userService;
+        this.cacheManager = cacheManager;
+    }
 
     public List<User> getAllUsers() {
         if (log.isDebugEnabled()) {
@@ -34,7 +36,7 @@ public class UserServiceManager {
         users = (List<User>) usersCache.get(USERS_CACHE_KEY);
         if (CollectionUtils.isEmpty(users)) {
             if (log.isDebugEnabled()) {
-                log.debug("Data Not found in Cache", users);
+                log.debug("Data Not found in Cache");
                 log.debug("Reading user information from service/DB");
             }
             users = userService.getAllUsers();

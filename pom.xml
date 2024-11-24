@@ -24,10 +24,9 @@
         <jaxb.version>2.3.1</jaxb.version>
         <org.ehcache.version>3.10.8</org.ehcache.version>
         <springdoc.version>2.6.0</springdoc.version>
-        <io.springfox.version>2.9.2</io.springfox.version>
         <org.projectlombok.version>1.18.36</org.projectlombok.version>
         <org.aspectj.version>1.6.2</org.aspectj.version>
-        <org.apache.commons-lang3.version>3.11</org.apache.commons-lang3.version>
+        <org.apache.commons-lang3.version>3.17.0</org.apache.commons-lang3.version>
         <org.apache.commons-collections4.version>4.4</org.apache.commons-collections4.version>
         <junit.version>[4.13.1,)</junit.version>
         <main.class>com.ravi.cache.statistics.CacheStatisticsApplication</main.class>

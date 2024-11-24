@@ -2,7 +2,6 @@ package com.ravi.cache.statistics.service.impl;
 
 import com.ravi.cache.statistics.service.CachePurgeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.cache.Cache;
@@ -12,8 +11,11 @@ import javax.cache.CacheManager;
 @Slf4j
 public class CachePurgeServiceImpl implements CachePurgeService {
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
+
+    public CachePurgeServiceImpl(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     /*
      * (non-Javadoc)

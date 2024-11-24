@@ -3,7 +3,6 @@ package com.ravi.cache.statistics.manager;
 import com.ravi.cache.statistics.entity.Teacher;
 import com.ravi.cache.statistics.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -18,11 +17,14 @@ import static com.ravi.cache.statistics.constants.CacheConstants.TEACHER_CACHE_K
 @Slf4j
 public class TeacherServiceManager {
 
-    @Autowired
-    private TeacherService teacherService;
+    private final TeacherService teacherService;
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
+
+    public TeacherServiceManager(TeacherService teacherService, CacheManager cacheManager) {
+        this.teacherService = teacherService;
+        this.cacheManager = cacheManager;
+    }
 
     public List<Teacher> getAllTeachers() {
         if (log.isDebugEnabled()) {
@@ -33,7 +35,7 @@ public class TeacherServiceManager {
         teachers = (List<Teacher>) teachersCache.get(TEACHER_CACHE_KEY);
         if (CollectionUtils.isEmpty(teachers)) {
             if (log.isDebugEnabled()) {
-                log.debug("Data Not found in Cache", teachers);
+                log.debug("Data Not found in Cache");
                 log.debug("Reading user information from service/DB");
             }
             teachers = teacherService.getAllTeachers();

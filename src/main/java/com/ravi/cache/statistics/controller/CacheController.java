@@ -4,7 +4,6 @@ import com.ravi.cache.statistics.dto.CacheData;
 import com.ravi.cache.statistics.dto.CacheDetails;
 import com.ravi.cache.statistics.service.CacheStatisticsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,11 @@ import static com.ravi.cache.statistics.constants.CacheConstants.USERS_CACHE_ALI
 @RequestMapping("/cache/data/v1")
 @Slf4j
 public class CacheController {
-    @Autowired
-    private CacheStatisticsService cacheStatisticsService;
+    private final CacheStatisticsService cacheStatisticsService;
+
+    public CacheController(CacheStatisticsService cacheStatisticsService) {
+        this.cacheStatisticsService = cacheStatisticsService;
+    }
 
     @GetMapping(path = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CacheData> getUserCache() {

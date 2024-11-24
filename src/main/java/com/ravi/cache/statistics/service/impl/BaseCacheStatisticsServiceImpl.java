@@ -43,7 +43,7 @@ public class BaseCacheStatisticsServiceImpl {
         // and org.ehcache.jsr107.Eh107MXBean.Eh107MXBean(String, URI, String)
         String cacheManagerName = sanitize(cache.getCacheManager().getURI().toString());
         String cacheName = sanitize(cache.getName());
-        ObjectName objectName = null;
+        ObjectName objectName;
         try {
             objectName = new ObjectName(
                     "javax.cache:type=" + CACHE_STATISTICS_BEAN + ",CacheManager=" + cacheManagerName + ",Cache=" + cacheName);

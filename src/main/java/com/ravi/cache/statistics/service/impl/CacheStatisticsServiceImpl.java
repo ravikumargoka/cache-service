@@ -4,7 +4,7 @@ import com.ravi.cache.statistics.dto.CacheData;
 import com.ravi.cache.statistics.dto.CacheDetails;
 import com.ravi.cache.statistics.service.CacheStatisticsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.cache.Cache;
@@ -16,8 +16,11 @@ import java.util.List;
 @Slf4j
 public class CacheStatisticsServiceImpl extends BaseCacheStatisticsServiceImpl implements CacheStatisticsService {
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
+
+    public CacheStatisticsServiceImpl(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     @Override
     public CacheData getStatistics(String cacheAliasName, Class cacheKeyClass, Class cacheObjectClass) {
@@ -59,7 +62,7 @@ public class CacheStatisticsServiceImpl extends BaseCacheStatisticsServiceImpl i
                 cacheDataList.add(cacheData);
             }
         }
-        if (null != cacheDataList && cacheDataList.size() > 0) {
+        if (CollectionUtils.isNotEmpty(cacheDataList)) {
             cacheDetails.setCacheData(cacheDataList);
         }
         if (log.isDebugEnabled()) {

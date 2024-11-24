@@ -4,7 +4,6 @@ import com.ravi.cache.statistics.entity.User;
 import com.ravi.cache.statistics.exception.RecordNotFoundException;
 import com.ravi.cache.statistics.repository.UserRepository;
 import com.ravi.cache.statistics.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +12,14 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<User> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-        return userList;
+        return userRepository.findAll();
     }
 
     public User getUserById(Long id) {
@@ -53,6 +54,5 @@ public class UserServiceImpl implements UserService {
             throw new RecordNotFoundException("No user record exists for the given id: " + id);
         }
     }
-
 
 }
