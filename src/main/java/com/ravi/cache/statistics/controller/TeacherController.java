@@ -1,8 +1,8 @@
 package com.ravi.cache.statistics.controller;
 
-import com.ravi.cache.statistics.entity.Teacher;
+import com.ravi.cache.statistics.delegator.TeacherDelegator;
+import com.ravi.cache.statistics.dto.TeacherDTO;
 import com.ravi.cache.statistics.exception.RecordNotFoundException;
-import com.ravi.cache.statistics.manager.TeacherServiceManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,42 +21,42 @@ import java.util.List;
 @RequestMapping("/teachers/v1")
 public class TeacherController {
 
-    private final TeacherServiceManager teacherServiceManager;
+    private final TeacherDelegator teacherDelegator;
 
-    public TeacherController(TeacherServiceManager teacherServiceManager) {
-        this.teacherServiceManager = teacherServiceManager;
+    public TeacherController(TeacherDelegator teacherDelegator) {
+        this.teacherDelegator = teacherDelegator;
     }
 
     @Operation(summary = "Gets all the teachers data", description = "Gets all the teachers data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Teacher.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = TeacherDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping
-    public ResponseEntity<List<Teacher>> getAllTeachers() {
-        List<Teacher> teacherList = teacherServiceManager.getAllTeachers();
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
+        List<TeacherDTO> teacherList = teacherDelegator.getAllTeachers();
         return new ResponseEntity<>(teacherList, new HttpHeaders(), HttpStatus.OK);
     }
 
     @Operation(summary = "Gets the teacher data for the given id", description = "Get the teacher data. If it is not available in cache, retrieves from DB and updates the cache")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Teacher.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = TeacherDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping("/{id}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable("id") Long id) {
-        Teacher teacher = teacherServiceManager.getTeacherById(id);
-        return new ResponseEntity<>(teacher, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<TeacherDTO> getTeacherById(@PathVariable("id") Long id) {
+        TeacherDTO teacherDTO = teacherDelegator.getTeacherById(id);
+        return new ResponseEntity<>(teacherDTO, new HttpHeaders(), HttpStatus.OK);
     }
 
     @Operation(summary = "Creates the teacher", description = "Creates the teacher. It updates the cache with newly created teacher")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully created the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Teacher.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = TeacherDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PostMapping
-    public ResponseEntity<Teacher> createTeacher(Teacher teacher) throws RecordNotFoundException {
-        Teacher updated = teacherServiceManager.createTeacher(teacher);
+    public ResponseEntity<TeacherDTO> createTeacher(TeacherDTO teacher) throws RecordNotFoundException {
+        TeacherDTO updated = teacherDelegator.createTeacher(teacher);
         return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
 
     }
@@ -64,11 +64,11 @@ public class TeacherController {
     @Operation(summary = "Updates the teacher", description = "Updates the teacher. It updates the cache with the updated teacher")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated the data",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Teacher.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = TeacherDTO.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @PatchMapping
-    public ResponseEntity<Teacher> updateTeacher(Teacher teacher) throws RecordNotFoundException {
-        Teacher updated = teacherServiceManager.updateTeacher(teacher);
+    public ResponseEntity<TeacherDTO> updateTeacher(TeacherDTO teacher) throws RecordNotFoundException {
+        TeacherDTO updated = teacherDelegator.updateTeacher(teacher);
         return new ResponseEntity<>(updated, new HttpHeaders(), HttpStatus.OK);
 
     }
@@ -81,7 +81,7 @@ public class TeacherController {
     @DeleteMapping("/{id}")
     public HttpStatus deleteTeacherById(@PathVariable("id") Long id)
             throws RecordNotFoundException {
-        teacherServiceManager.deleteTeacherById(id);
+        teacherDelegator.deleteTeacherById(id);
         return HttpStatus.OK;
     }
 }
