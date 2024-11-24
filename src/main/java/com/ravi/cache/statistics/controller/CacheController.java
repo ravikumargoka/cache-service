@@ -3,6 +3,11 @@ package com.ravi.cache.statistics.controller;
 import com.ravi.cache.statistics.dto.CacheData;
 import com.ravi.cache.statistics.dto.CacheDetails;
 import com.ravi.cache.statistics.service.CacheStatisticsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +29,11 @@ public class CacheController {
         this.cacheStatisticsService = cacheStatisticsService;
     }
 
+    @Operation(summary = "Get the cache statistics for user cache", description = "Provides the cache statics for the users cache")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved users cache details",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CacheData.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping(path = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CacheData> getUserCache() {
         if (log.isDebugEnabled()) {
@@ -37,6 +47,11 @@ public class CacheController {
         return new ResponseEntity<>(cacheData, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get the cache statistics for teachers cache", description = "Provides the cache statics for the teachers cache")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved teachers cache details",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CacheData.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping(path = "/teachers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CacheData> getTeacherCache() {
         if (log.isDebugEnabled()) {
@@ -50,6 +65,11 @@ public class CacheController {
         return new ResponseEntity<>(cacheData, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get the cache statistics for all cache", description = "Provides the cache statics for all cache")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved all cache details",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = CacheDetails.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @GetMapping(path = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CacheDetails> getAllCache() {
         if (log.isDebugEnabled()) {

@@ -41,9 +41,10 @@ public class UserServiceManager {
             }
             users = userService.getAllUsers();
             usersCache.put(USERS_CACHE_KEY, users);
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("END :: Getting all users: {}", users);
+        } else {
+            if (log.isDebugEnabled()) {
+                log.debug("END :: Getting all users from cache: {}", users);
+            }
         }
         return users;
     }

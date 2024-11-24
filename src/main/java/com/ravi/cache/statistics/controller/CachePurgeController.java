@@ -2,6 +2,11 @@ package com.ravi.cache.statistics.controller;
 
 
 import com.ravi.cache.statistics.service.CachePurgeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +27,11 @@ public class CachePurgeController {
         this.cachePurgeService = cachePurgeService;
     }
 
+    @Operation(summary = "Clears the cache for the given cache", description = "Clears the cache for the given cache")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully cleared the cache",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @DeleteMapping(path = "/{cacheAliasName}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearCache(@PathVariable("cacheAliasName") String cacheAliasName) {
         if (log.isDebugEnabled()) {
@@ -35,6 +45,11 @@ public class CachePurgeController {
         return new ResponseEntity<>(responseString, HttpStatus.OK);
     }
 
+    @Operation(summary = "Clears all cache data", description = "Clears all the data cached")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully cleared the cache",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
     @DeleteMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearAllCache() {
         if (log.isDebugEnabled()) {

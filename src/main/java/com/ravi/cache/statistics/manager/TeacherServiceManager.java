@@ -68,7 +68,7 @@ public class TeacherServiceManager {
         return teacher;
     }
 
-    public Teacher createOrUpdateUser(Teacher entity) {
+    public Teacher createOrUpdateTeacher(Teacher entity) {
         if (log.isDebugEnabled()) {
             log.debug("START :: Create or update teacher: {}", entity);
         }
