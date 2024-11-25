@@ -1,7 +1,6 @@
 package com.ravi.cache.statistics.controller;
 
 
-import com.ravi.cache.statistics.dto.TeacherDTO;
 import com.ravi.cache.statistics.service.CachePurgeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,8 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +40,7 @@ public class CachePurgeController {
         if (log.isDebugEnabled()) {
             log.debug("START :: removing the cache with name: {}", cacheAliasName);
         }
-        return new ResponseEntity<>(responseString, HttpStatus.OK);
+        return ResponseEntity.ok(responseString);
     }
 
     @Operation(summary = "Clears all cache data", description = "Clears all the data cached")
@@ -61,7 +58,7 @@ public class CachePurgeController {
         if (log.isDebugEnabled()) {
             log.debug("END :: removing all caches.");
         }
-        return new ResponseEntity<>(responseString, HttpStatus.OK);
+        return ResponseEntity.ok(responseString);
     }
 
     @Operation(summary = "Gets all the cache alias names", description = "Gets all the cache alias names for the cache created")
