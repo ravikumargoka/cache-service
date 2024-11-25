@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import javax.cache.Cache;
 import javax.cache.CacheManager;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -50,6 +52,7 @@ public class CachePurgeServiceImpl implements CachePurgeService {
         Iterable<String> allCacheNames = cacheManager.getCacheNames();
         if (null != allCacheNames) {
             for (String cacheAliasName : allCacheNames) {
+                log.info("The cache alias name: {}", cacheAliasName);
                 Cache<String, Object> cache = cacheManager.getCache(cacheAliasName, String.class, Object.class);
                 if (null != cache) {
                     cache.removeAll();
@@ -61,4 +64,19 @@ public class CachePurgeServiceImpl implements CachePurgeService {
         }
     }
 
+    /**
+     * Method to get all cache alias names
+     *
+     * @return cacheAliases
+     */
+    @Override
+    public List<String> getAllCacheAlias() {
+        List<String> cacheAliases = new ArrayList<>();
+        if (log.isDebugEnabled()) {
+            log.debug("START :: Getting all cache alias names.");
+        }
+        Iterable<String> allCacheNames = cacheManager.getCacheNames();
+        allCacheNames.forEach(cacheAliases::add);
+        return cacheAliases;
+    }
 }

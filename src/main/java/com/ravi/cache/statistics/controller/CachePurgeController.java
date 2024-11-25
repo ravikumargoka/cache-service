@@ -8,16 +8,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/cache/purge/v1")
+@RequestMapping("/cache/v1")
 @Slf4j
 public class CachePurgeController {
 
@@ -32,7 +30,7 @@ public class CachePurgeController {
             @ApiResponse(responseCode = "200", description = "Successfully cleared the cache",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
-    @DeleteMapping(path = "/{cacheAliasName}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(path = "/purge/{cacheAliasName}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearCache(@PathVariable("cacheAliasName") String cacheAliasName) {
         if (log.isDebugEnabled()) {
             log.debug("START :: removing the cache with name: {}", cacheAliasName);
@@ -42,7 +40,7 @@ public class CachePurgeController {
         if (log.isDebugEnabled()) {
             log.debug("START :: removing the cache with name: {}", cacheAliasName);
         }
-        return new ResponseEntity<>(responseString, HttpStatus.OK);
+        return ResponseEntity.ok(responseString);
     }
 
     @Operation(summary = "Clears all cache data", description = "Clears all the data cached")
@@ -50,7 +48,7 @@ public class CachePurgeController {
             @ApiResponse(responseCode = "200", description = "Successfully cleared the cache",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
-    @DeleteMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(path = "/purge/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> clearAllCache() {
         if (log.isDebugEnabled()) {
             log.debug("START :: removing all caches.");
@@ -60,6 +58,17 @@ public class CachePurgeController {
         if (log.isDebugEnabled()) {
             log.debug("END :: removing all caches.");
         }
-        return new ResponseEntity<>(responseString, HttpStatus.OK);
+        return ResponseEntity.ok(responseString);
+    }
+
+    @Operation(summary = "Gets all the cache alias names", description = "Gets all the cache alias names for the cache created")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the data",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)})
+    @GetMapping(path = "/aliases", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<String>> getAllTeachers() {
+        List<String> allCacheAlias = cachePurgeService.getAllCacheAlias();
+        return ResponseEntity.ok(allCacheAlias);
     }
 }
